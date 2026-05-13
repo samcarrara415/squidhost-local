@@ -2,7 +2,7 @@ const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => Array.from(document.querySelectorAll(selector));
 
 const storageKey = "squidhost-local-state-v1";
-const agentBase = "http://127.0.0.1:58432";
+const agentBase = "http://localhost:58432";
 const logTimers = new Map();
 let state = loadState();
 let selectedId = state.selectedId || state.servers[0]?.id || null;

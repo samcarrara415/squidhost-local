@@ -9,7 +9,7 @@ const crypto = require("crypto");
 const { spawn, execFile } = require("child_process");
 
 const PORT = Number(process.env.SQUIDHOST_AGENT_PORT || 58432);
-const HOST = "127.0.0.1";
+const HOST = "localhost";
 const DATA_DIR = process.env.SQUIDHOST_HOME || path.join(os.homedir(), ".squidhost-local");
 const SERVERS_DIR = path.join(DATA_DIR, "servers");
 const STATE_FILE = path.join(DATA_DIR, "state.json");
@@ -106,6 +106,7 @@ function setCors(req, res) {
   res.setHeader("Vary", "Origin");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, X-SquidHost-Token");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Private-Network", "true");
 }
 
 function isAuthorized(req) {

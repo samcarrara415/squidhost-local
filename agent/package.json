@@ -1,0 +1,16 @@
+{
+  "name": "squidhost-agent",
+  "version": "1.0.0",
+  "description": "Local Minecraft server agent for the SquidHost browser UI.",
+  "main": "server.js",
+  "bin": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build:win": "npx @yao-pkg/pkg@latest . --targets node20-win-x64 --output dist/squidhost-agent.exe",
+    "build:mac": "npx @yao-pkg/pkg@latest . --targets node20-macos-arm64,node20-macos-x64 --out-path dist"
+  },
+  "pkg": {
+    "scripts": "server.js"
+  },
+  "license": "MIT"
+}

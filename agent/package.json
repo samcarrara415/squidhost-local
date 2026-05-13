@@ -10,7 +10,8 @@
     "build:mac": "npx @yao-pkg/pkg@latest . --targets node20-macos-arm64,node20-macos-x64 --out-path dist"
   },
   "pkg": {
-    "scripts": "server.js"
+    "scripts": "server.js",
+    "assets": "public/**/*"
   },
   "license": "MIT"
 }

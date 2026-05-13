@@ -57,6 +57,8 @@ async function handleRequest(req, res) {
 
   try {
     const url = new URL(req.url, `http://${HOST}:${PORT}`);
+    if ((req.method === "GET" || req.method === "HEAD") && await serveStatic(req, url, res)) return;
+
     if (url.pathname === "/health") {
       return json(res, 200, {
         ok: true,
@@ -98,6 +100,28 @@ async function handleRequest(req, res) {
     console.error(error);
     json(res, 500, { ok: false, error: error.message || "Agent error" });
   }
+}
+
+async function serveStatic(req, url, res) {
+  const publicDir = path.join(__dirname, "public");
+  const routes = {
+    "/": "index.html",
+    "/index.html": "index.html",
+    "/style.css": "style.css",
+    "/app.js": "app.js"
+  };
+  const fileName = routes[url.pathname];
+  if (!fileName) return false;
+  const file = path.join(publicDir, fileName);
+  const types = {
+    ".html": "text/html; charset=utf-8",
+    ".css": "text/css; charset=utf-8",
+    ".js": "application/javascript; charset=utf-8"
+  };
+  const content = await fsp.readFile(file);
+  res.writeHead(200, { "Content-Type": types[path.extname(file)] || "application/octet-stream" });
+  res.end(req.method === "HEAD" ? undefined : content);
+  return true;
 }
 
 function setCors(req, res) {
